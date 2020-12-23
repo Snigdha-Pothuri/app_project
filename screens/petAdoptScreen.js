@@ -1,99 +1,158 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, Text, FlatList,TouchableOpacity } from 'react-native';
-import { ListItem , Avatar, Icon} from 'react-native-elements'
-import firebase from 'firebase';
+import React from 'react';
+import { Text, View, FlatList, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import db from '../config'
+import { ScrollView } from 'react-native-gesture-handler';
+import {Avatar,ListItem,Icon} from 'react-native-elements';
 import MyHeader from '../components/MyHeader';
 
-export default class PetAdoptScreen extends Component{
-  constructor(){
-    super()
-    this.state = {
-      requestedPetsList : []
+export default class petAdoptScreen extends React.Component {
+    constructor(props){
+      super(props)
+      this.state = {
+        allTransactions: [],
+        lastVisibleTransaction: null,
+        search:''
+      }
     }
-  this.requestRef= null
+
+    fetchMoreTransactions = async ()=>{
+      var text = this.state.search.toLowerCase()
+      var enteredText = text.split("")
+
+      
+      if (enteredText[0].toLowerCase() === "b" || enteredText[0].toLowerCase() === "l" || enteredText[0].toLowerCase() === "g"){ 
+      const query = await db.collection("donatePet").where('pet_breed','==',text).startAfter(this.state.lastVisibleTransaction).limit(10).get()
+      query.docs.map((doc)=>{
+        this.setState({
+          allTransactions: [...this.state.allTransactions, doc.data()],
+          lastVisibleTransaction: doc
+        })
+      })
+    }
+      else if(enteredText[0].toLowerCase() === 'c'){
+        const query = await db.collection("donatePet").where('pet_breed','==',text).startAfter(this.state.lastVisibleTransaction).limit(10).get()
+        query.docs.map((doc)=>{
+          this.setState({
+            allTransactions: [...this.state.allTransactions, doc.data()],
+            lastVisibleTransaction: doc
+          })
+        })
+      }
   }
 
-  getRequestedPetsList =()=>{
-    this.requestRef = db.collection("donatePet")
-    .onSnapshot((snapshot)=>{
-      var requestedPetsList = snapshot.docs.map(document => document.data());
-      this.setState({
-        requestedPetsList : requestedPetsList
-      });
-    })
-  }
+    searchTransactions= async(text) =>{
+      var enteredText = text.split("")
+      var text = text.toLowerCase()
+  
+      
+      if (enteredText[0].toLowerCase() === "b" || enteredText[0].toLowerCase() === "l" || enteredText[0].toLowerCase() === "g"){ 
+        const transaction =  await db.collection("donatePet").where('pet_breed','==',text).get()
+        transaction.docs.map((doc)=>{
+          this.setState({
+            allTransactions:[...this.state.allTransactions,doc.data()],
+            lastVisibleTransaction: doc
+          })
+        })
+      }
+      else if(enteredText[0].toLowerCase() === 'c'){
+        const transaction = await db.collection('donatePet').where('pet_breed','==',text).get()
+        transaction.docs.map((doc)=>{
+          this.setState({
+            allTransactions:[...this.state.allTransactions,doc.data()],
+            lastVisibleTransaction: doc
+          })
+        })
+      }
+    }
 
-  componentDidMount(){
-    this.getrequestedPetsList()
-  }
+    componentDidMount = async ()=>{
+      const query = await db.collection("donatePet").limit(10).get()
+      query.docs.map((doc)=>{
+        this.setState({
+          allTransactions: [],
+          lastVisibleTransaction: doc
+        })
+      })
+    } 
 
-  componentWillUnmount(){
-    this.requestRef();
-  }
-
-  keyExtractor = (item, index) => index.toString()
-
-  renderItem = ( {item, i} ) =>{
-    return (
-      <ListItem
-        key={i}
-        title={item.pet_breed}
-        subtitle={item.description}
-        titleStyle={{ color: 'black', fontWeight: 'bold' }}
-        rightElement={
-            <TouchableOpacity style={styles.button}>
-              <Text style={{color:'#ffff'}}>View</Text>
-            </TouchableOpacity>
-          }
-        bottomDivider
-      />
-    )
-  }
-
-  render(){
-    return(
-      <View style={{flex:1}}>
-        <MyHeader title="Adopt A Pet"/>
-        <View style={{flex:1}}>
-          {
-            this.state.requestedPetsList.length === 0
-            ?(
-              <View style={styles.subContainer}>
-                <Text style={{ fontSize: 20}}> List Of All Available Pets</Text>
-              </View>
-            )
-            :(
-              <FlatList
-                keyExtractor={this.keyExtractor}
-                data={this.state.requestedPetsList}
-                renderItem={this.renderItem}
+    renderItem = ( {item, i} ) =>{
+      return (
+        <ListItem
+          key={i}
+          leftAvatar = {
+            <Avatar
+                 rounded 
+                 source = {{uri:item.image}}
+                 size = "medium"
               />
-            )
           }
+          title={ "breed of the pet" + " : " + item.pet_breed}
+          subtitle={ "petAge" + item.petAge + "Some info about the pet" + ":" +item.description}
+          titleStyle={{ color: 'black', fontWeight: 'bold' }}
+          rightElement={
+              <TouchableOpacity style={styles.button}>
+                <Text style={{color:'#ffff'}}>View</Text>
+              </TouchableOpacity>
+            }
+          bottomDivider
+        />
+      )
+    }
+    render() {
+      return (
+        <View style={styles.container}> 
+          <MyHeader title="Adopt A Pet" navigation ={this.props.navigation}/>
+          <View style={styles.searchBar}>
+        <TextInput 
+          style ={styles.bar}
+          placeholder = "Search for any breed"
+          onChangeText={(text)=>{this.setState({search:text})}}/>
+          <TouchableOpacity
+            style = {styles.searchButton}
+            onPress={()=>{this.searchTransactions(this.state.search)}}
+          >
+            <Text>Search</Text>
+          </TouchableOpacity>
+          </View>
+        <FlatList
+          data={this.state.allTransactions}
+          renderItem = {this.renderItem}
+          keyExtractor= {(item, index)=> index.toString()}
+          onEndReached ={this.fetchMoreTransactions}
+          onEndReachedThreshold={0.7}
+        /> 
         </View>
-      </View>
-    )
+      );
+    }
   }
-}
 
-const styles = StyleSheet.create({
-  subContainer:{
-    flex:1,
-    fontSize: 20,
-    justifyContent:'center',
-    alignItems:'center'
-  },
-  button:{
-    width:100,
-    height:30,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:"#ff5722",
-    shadowColor: "#000",
-    shadowOffset: {
-       width: 0,
-       height: 8
-     }
-  }
-})
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      marginTop: 20
+    },
+    searchBar:{
+      flexDirection:'row',
+      height:40,
+      width:'auto',
+      borderWidth:0.5,
+      alignItems:'center',
+      backgroundColor:'grey',
+  
+    },
+    bar:{
+      borderWidth:2,
+      height:30,
+      width:300,
+      paddingLeft:10,
+    },
+    searchButton:{
+      borderWidth:1,
+      height:30,
+      width:50,
+      alignItems:'center',
+      justifyContent:'center',
+      backgroundColor:'green'
+    }
+  })

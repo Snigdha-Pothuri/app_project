@@ -32,7 +32,7 @@ export default class WelcomeScreen extends Component{
 
   userSignUp = (emailId, password,confirmPassword) =>{
    if(password !== confirmPassword){
-       return Alert.alert("password doesn't match\nCheck your password.")
+       return alert("password doesn't match\nCheck your password.")
    }else{
      firebase.auth().createUserWithEmailAndPassword(emailId, password)
      .then(()=>{
@@ -44,7 +44,7 @@ export default class WelcomeScreen extends Component{
          address:this.state.address,
          isBookRequestActive : false
        })
-       return  Alert.alert(
+       return  alert(
             'User Added Successfully',
             '',
             [
@@ -56,7 +56,7 @@ export default class WelcomeScreen extends Component{
        // Handle Errors here.
        var errorCode = error.code;
        var errorMessage = error.message;
-       return Alert.alert(errorMessage)
+       return alert(errorMessage)
      });
    }
  }
@@ -64,12 +64,12 @@ export default class WelcomeScreen extends Component{
 userLogin = (emailId, password)=>{
    firebase.auth().signInWithEmailAndPassword(emailId, password)
    .then(()=>{
-     this.props.navigation.navigate('DonateBooks')
+     this.props.navigation.navigate('Adopt_Pet')
    })
    .catch((error)=> {
      var errorCode = error.code;
      var errorMessage = error.message;
-     return Alert.alert(errorMessage)
+     return alert(errorMessage)
    })
  }
 

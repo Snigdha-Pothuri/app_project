@@ -95,7 +95,7 @@ export default class PetDonateScreen extends Component{
   render(){
     return(
         <View style={{flex:1}}>
-          <MyHeader title="Donate A Pet"/>
+          <MyHeader title="Donate A Pet" navigation ={this.props.navigation}/>
             <KeyboardAvoidingView style={styles.keyBoardStyle}>
             <Avatar
                  rounded 
@@ -181,18 +181,6 @@ const styles = StyleSheet.create({
     shadowRadius: 10.32,
     elevation: 16,
     marginTop:20
-    },
-    imageContainer:{
-        width:"40%",
-        height:"40%",
-        alignSelf:'center',
-        borderColor:'#ffab91',
-        borderRadius:40,
-        flex:0.75,
-        borderWidth:1,
-        marginTop:20,
-        marginLeft : 20,
-        padding:10
-      }
+    }
   }
 )

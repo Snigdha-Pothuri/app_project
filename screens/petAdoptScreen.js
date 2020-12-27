@@ -20,7 +20,7 @@ export default class petAdoptScreen extends React.Component {
       var enteredText = text.split("")
 
       
-      if (enteredText[0].toLowerCase() === "b" || enteredText[0].toLowerCase() === "l" || enteredText[0].toLowerCase() === "g"){ 
+      if (enteredText[0].toLowerCase() === "a" || "b" || "c" || "d" || "e" || "f" || "g" || "h" || "i" || "j" || "k" || "l" || "m"){ 
       const query = await db.collection("donatePet").where('pet_breed','==',text).startAfter(this.state.lastVisibleTransaction).limit(10).get()
       query.docs.map((doc)=>{
         this.setState({
@@ -29,7 +29,7 @@ export default class petAdoptScreen extends React.Component {
         })
       })
     }
-      else if(enteredText[0].toLowerCase() === 'c'){
+      else if(enteredText[0].toLowerCase() === 'n' || "o" || "p" || "q" || "r" || "s" || "t" || "u" || "v" || "w" || "x" || "y" || "z" ){
         const query = await db.collection("donatePet").where('pet_breed','==',text).startAfter(this.state.lastVisibleTransaction).limit(10).get()
         query.docs.map((doc)=>{
           this.setState({
@@ -45,7 +45,7 @@ export default class petAdoptScreen extends React.Component {
       var text = text.toLowerCase()
   
       
-      if (enteredText[0].toLowerCase() === "b" || enteredText[0].toLowerCase() === "l" || enteredText[0].toLowerCase() === "g"){ 
+      if (enteredText[0].toLowerCase() === "a" || "b" || "c" || "d" || "e" || "f" || "g" || "h" || "i" || "j" || "k" || "l" || "m"){
         const transaction =  await db.collection("donatePet").where('pet_breed','==',text).get()
         transaction.docs.map((doc)=>{
           this.setState({
@@ -54,7 +54,7 @@ export default class petAdoptScreen extends React.Component {
           })
         })
       }
-      else if(enteredText[0].toLowerCase() === 'c'){
+      else if(enteredText[0].toLowerCase() === 'n' || "o" || "p" || "q" || "r" || "s" || "t" || "u" || "v" || "w" || "x" || "y" || "z" ){
         const transaction = await db.collection('donatePet').where('pet_breed','==',text).get()
         transaction.docs.map((doc)=>{
           this.setState({
@@ -90,7 +90,11 @@ export default class petAdoptScreen extends React.Component {
           subtitle={ "petAge" + item.petAge + "Some info about the pet" + ":" +item.description}
           titleStyle={{ color: 'black', fontWeight: 'bold' }}
           rightElement={
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button}
+              onPress ={()=>{
+                this.props.navigation.navigate("DonorDetails",{"details": item})
+              }}
+              >
                 <Text style={{color:'#ffff'}}>View</Text>
               </TouchableOpacity>
             }

@@ -50,10 +50,10 @@ export default class NotificationScreen extends Component{
       return (
         <ListItem
           key={index}
-          leftElement={<Icon name="book" type="font-awesome" color ='#696969'/>}
-          title={"Age of the pet" +" "+ item.petAge + "Breed of the pet" + " " + item.petBreed}
+          leftElement={<Icon name="dog" type="font-awesome" color ='#696969'/>}
+          title={"Age of the pet" +" "+ item.petAge}
           titleStyle={{ color: 'black', fontWeight: 'bold' }}
-          subtitle={item.message}
+          subtitle={item.message  + " " + "Breed of the pet" + " " + item.pet_breed}
           bottomDivider
         />
       )

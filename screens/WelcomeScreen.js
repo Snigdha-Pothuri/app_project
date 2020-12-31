@@ -192,10 +192,13 @@ showModal = ()=>{
             this.showModal()
           }
         <View style={{justifyContent:'center', alignItems:'center'}}>
-          <Text style={styles.title}> My App </Text>
+          <Text style={styles.title}> Furry Friends :) </Text>
         </View>
         <View> 
-          
+          <Image
+          source = {require("../images/logo_3.png")}
+          style={{width:200,height:200}}
+          />
 
             <TextInput
             style={styles.loginBox}
@@ -254,7 +257,8 @@ const styles = StyleSheet.create({
    fontSize:65,
    fontWeight:'300',
    paddingBottom:30,
-   color : '#ff3d00'
+   color : '#ff3d00',
+   fontFamily : 'modern love'
  },
  loginBox:{
    width: 300,

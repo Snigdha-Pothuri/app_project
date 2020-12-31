@@ -13,8 +13,8 @@ export default class DonorDetailsScreen extends Component{
       userName        : "",
       donorId   : this.props.navigation.getParam('details')["user_id"],
       requestId       : this.props.navigation.getParam('details')["request_id"],
-      petAge     : this.props.navigation.getParam('details')["book_name"],
-      petBreed   : this.props.navigation.getParam('details')["reason_to_request"],
+      petAge     : this.props.navigation.getParam('details')["petAge"],
+      petBreed   : this.props.navigation.getParam('details')["pet_breed"],
      donorName    : '',
      donorContact : '',
     donorAddress : '',
@@ -55,9 +55,9 @@ export default class DonorDetailsScreen extends Component{
     })
   }
 
-  updateBookStatus=()=>{
+  updatePetStatus=()=>{
     db.collection('all_adoptions').add({
-      "pet_age"           : this.state.petAge,
+      "petAge"           : this.state.petAge,
       "request_id"          : this.state.requestId,
       "donated_by"        : this.state.donorName,
       "adoptor_id"            : this.state.userId,
@@ -76,8 +76,9 @@ export default class DonorDetailsScreen extends Component{
       "petAge"           : this.state.petAge,
       "date"                : firebase.firestore.FieldValue.serverTimestamp(),
       "notification_status" : "unread",
-      "message"             : message
-    })
+      "message"             : message,
+      "pet_breed" : this.state.petBreed
+        })
   }
 
   componentDidMount(){
@@ -132,7 +133,7 @@ export default class DonorDetailsScreen extends Component{
                 <TouchableOpacity
                     style={styles.button}
                     onPress={()=>{
-                      this.updateBookStatus()
+                      this.updatePetStatus()
                       this.addNotification()
                       this.props.navigation.navigate('Home')
                     }}>

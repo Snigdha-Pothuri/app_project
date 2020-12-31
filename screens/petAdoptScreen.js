@@ -16,11 +16,11 @@ export default class petAdoptScreen extends React.Component {
     }
 
     fetchMoreTransactions = async ()=>{
-      var text = this.state.search.toLowerCase()
+      var text = this.state.search.toUpperCase()
       var enteredText = text.split("")
 
       
-      if (enteredText[0].toLowerCase() === "a" || "b" || "c" || "d" || "e" || "f" || "g" || "h" || "i" || "j" || "k" || "l" || "m"){ 
+      if (enteredText[0].toUpperCase() === "a" || "b" || "c" || "d" || "e" || "f" || "g" || "h" || "i" || "j" || "k" || "l" || "m"){ 
       const query = await db.collection("donatePet").where('pet_breed','==',text).startAfter(this.state.lastVisibleTransaction).limit(10).get()
       query.docs.map((doc)=>{
         this.setState({
@@ -29,7 +29,7 @@ export default class petAdoptScreen extends React.Component {
         })
       })
     }
-      else if(enteredText[0].toLowerCase() === 'n' || "o" || "p" || "q" || "r" || "s" || "t" || "u" || "v" || "w" || "x" || "y" || "z" ){
+      else if(enteredText[0].toUpperCase() === 'n' || "o" || "p" || "q" || "r" || "s" || "t" || "u" || "v" || "w" || "x" || "y" || "z" ){
         const query = await db.collection("donatePet").where('pet_breed','==',text).startAfter(this.state.lastVisibleTransaction).limit(10).get()
         query.docs.map((doc)=>{
           this.setState({
@@ -42,10 +42,10 @@ export default class petAdoptScreen extends React.Component {
 
     searchTransactions= async(text) =>{
       var enteredText = text.split("")
-      var text = text.toLowerCase()
+      var text = text.toUpperCase()
   
       
-      if (enteredText[0].toLowerCase() === "a" || "b" || "c" || "d" || "e" || "f" || "g" || "h" || "i" || "j" || "k" || "l" || "m"){
+      if (enteredText[0].toUpperCase() === "a" || "b" || "c" || "d" || "e" || "f" || "g" || "h" || "i" || "j" || "k" || "l" || "m"){
         const transaction =  await db.collection("donatePet").where('pet_breed','==',text).get()
         transaction.docs.map((doc)=>{
           this.setState({
@@ -54,7 +54,7 @@ export default class petAdoptScreen extends React.Component {
           })
         })
       }
-      else if(enteredText[0].toLowerCase() === 'n' || "o" || "p" || "q" || "r" || "s" || "t" || "u" || "v" || "w" || "x" || "y" || "z" ){
+      else if(enteredText[0].toUpperCase() === 'n' || "o" || "p" || "q" || "r" || "s" || "t" || "u" || "v" || "w" || "x" || "y" || "z" ){
         const transaction = await db.collection('donatePet').where('pet_breed','==',text).get()
         transaction.docs.map((doc)=>{
           this.setState({
@@ -87,7 +87,7 @@ export default class petAdoptScreen extends React.Component {
               />
           }
           title={ "breed of the pet" + " : " + item.pet_breed}
-          subtitle={ "petAge" + item.petAge + "Some info about the pet" + ":" +item.description}
+          subtitle={ "petAge" + " : " + item.petAge + " " +  "Some info about the pet" + " : " +item.description}
           titleStyle={{ color: 'black', fontWeight: 'bold' }}
           rightElement={
               <TouchableOpacity style={styles.button}
@@ -95,7 +95,7 @@ export default class petAdoptScreen extends React.Component {
                 this.props.navigation.navigate("DonorDetails",{"details": item})
               }}
               >
-                <Text style={{color:'#ffff'}}>View</Text>
+                <Text style={{color:"black"}}>View</Text>
               </TouchableOpacity>
             }
           bottomDivider
@@ -115,7 +115,9 @@ export default class petAdoptScreen extends React.Component {
             style = {styles.searchButton}
             onPress={()=>{this.searchTransactions(this.state.search)}}
           >
-            <Text>Search</Text>
+         <Icon
+           name = "search" type="font-awesome"
+         />
           </TouchableOpacity>
           </View>
         <FlatList

@@ -107,7 +107,7 @@ export default class PetDonateScreen extends Component{
               />
               <TextInput
                 style ={styles.formTextInput}
-                placeholder={"enter pet breed"}
+                placeholder={"Enter a pet breed in capitals"}
                 onChangeText={(text)=>{
                     this.setState({
                         petBreed:text

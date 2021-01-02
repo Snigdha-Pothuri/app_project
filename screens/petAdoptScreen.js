@@ -104,13 +104,13 @@ export default class petAdoptScreen extends React.Component {
     }
     render() {
       return (
-        <View style={styles.container}> 
+        <View style={styles.container}>  
           <MyHeader title="Adopt A Pet" navigation ={this.props.navigation}/>
           <View style={styles.searchBar}>
         <TextInput 
           style ={styles.bar}
           placeholder = "Search for any breed"
-          onChangeText={(text)=>{this.setState({search:text})}}/>
+          onChangeText={(text)=>{this.setState({search:text})}}/> 
           <TouchableOpacity
             style = {styles.searchButton}
             onPress={()=>{this.searchTransactions(this.state.search)}}
@@ -127,6 +127,7 @@ export default class petAdoptScreen extends React.Component {
           onEndReached ={this.fetchMoreTransactions}
           onEndReachedThreshold={0.7}
         /> 
+              <Text style={{marginBottom:"20%",marginLeft:"35%"}}> Search for a breed of any animal that you would like to adopt </Text>
         </View>
       );
     }

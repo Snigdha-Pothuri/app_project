@@ -66,10 +66,12 @@ export default class WelcomeScreen extends Component{
 
         
           <View style={{flex:1}}>
+
   <MyHeader  
         title = "Settings"
         navigation= {this.props.navigation}
       />
+                  <Text>You Can Edit Your Profile Details Here </Text>
       <View>
       <TextInput
           style={styles.formTextInput}

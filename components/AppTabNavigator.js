@@ -11,14 +11,14 @@ export const AppTabNavigator = createBottomTabNavigator({
  Adopt_Pet : {
     screen: petAdoptScreen,
     navigationOptions :{
-      tabBarIcon : <Image source={require("../images/adopt.png")} style={{width:20, height:20}}/>,
+      tabBarIcon : <Image source={require("../images/adopt.jpg")} style={{width:20, height:20}}/>,
       tabBarLabel : "Adopt a Pet",
     }
   },
 Donate_pet : {
     screen: petDonateScreen,
     navigationOptions :{
-      tabBarIcon : <Image source={require("../images/donate.png")} style={{width:20, height:20}}/>,
+      tabBarIcon : <Image source={require("../images/donate.jpg")} style={{width:20, height:20}}/>,
       tabBarLabel : "Donate a Pet",
     }
   }

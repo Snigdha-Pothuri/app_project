@@ -44,13 +44,17 @@ export default class SwipeableFlatlist extends Component{
 
   renderItem = data => (
       <Animated.View>
-        <ListItem
-          leftElement={<Icon name="book" type="font-awesome" color ='#696969'/>}
-          title={data.item.petAge+data.item.petBreed}
-          titleStyle={{ color: 'black', fontWeight: 'bold' }}
-          subtitle={data.item.message}
-          bottomDivider
-        />
+       <ListItem
+         leftElement={
+         <Icon name="gift" type ="font-awesome"
+          />} 
+          title={"pets Age is "+ data.item.petAge+ " " +"pet Breed is "+ data.item.pet_breed
+        } titleStyle={{ 
+          color: 'black', fontWeight: 'bold'
+         }} 
+         subtitle={data.item.message} 
+         bottomDivider
+          />
       </Animated.View>
   );
 
